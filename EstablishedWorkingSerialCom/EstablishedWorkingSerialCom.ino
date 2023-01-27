@@ -16,6 +16,8 @@ void loop() {
   if(Serial.available() > 0) {
 
     msg = Serial.read(); 
+    
+
 
 
     if(msg == 'n') {
@@ -26,7 +28,7 @@ void loop() {
   }
 }
 
-
+  
 
 
 
