@@ -2,7 +2,7 @@
 import serial
 import time
 
-serialInst = serial.Serial("COM3", 9600)
+serialInst = serial.Serial("/dev/cu.usbmodem1101", 9600)
 
 
 #msg = 0b10000001
