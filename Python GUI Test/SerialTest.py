@@ -5,6 +5,9 @@ import time
 serialInst = serial.Serial("COM6", 9600)
 
 
+# serialInst = serial.Serial("/dev/cu.usbmodem1101", 9600)
+
+
 #msg = 0b01101110
 #print(msg)
 
