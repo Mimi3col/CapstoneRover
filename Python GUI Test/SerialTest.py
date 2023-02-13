@@ -2,21 +2,40 @@
 import serial
 import time
 
-serialInst = serial.Serial("COM3", 9600)
+serialInst = serial.Serial("COM6", 9600)
 
 
-#msg = 0b10000001
-#print(bin(65))
-#print(chr(msg))
+#msg = 0b01101110
+#print(msg)
+
+
+#msg = input("...")
+
+msg = 0b01101110
+
+
+msg = msg.to_bytes(1, "big")
+time.sleep(3)
+
+
+serialInst.write(msg)
 
 
 
+'''
+msg = 'n'
+serialInst.write(bytes(msg, "utf-8"))
+'''
+
+
+'''
 while(True):
-  msg = input("Cont..")
-  serialInst.write(bytes(msg, "utf-8"))
+  #msg = input("Cont..")
+  serialInst.write(msg)
+
   if(msg == "e"):
     break
-
+'''
 
 serialInst.close()
 
