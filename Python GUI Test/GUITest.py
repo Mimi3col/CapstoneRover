@@ -1,6 +1,8 @@
 
 from PyQt5.QtWidgets import QApplication, QWidget, QPushButton, QGridLayout, QLineEdit, QFrame, QGroupBox, QLabel
-
+import serial
+import time
+import atexit
 
 
 
@@ -44,7 +46,12 @@ class QMotorInput(QGroupBox):
         if(not(val >= 0 and val <= 63)):
             self._QLineEditMotor.setText(str(32))
 
-        print(self._motAddr,",", self.get_QLineEditMotor_text())
+        msg = (self._motAddr << 6) + int(self.get_QLineEditMotor_text())
+        print(msg)
+
+        msg = msg.to_bytes(1, "big")
+        serialInst.write(msg)
+
 
     def get_QLineEditMotor_text(self):
         return self._QLineEditMotor.text()
@@ -52,6 +59,7 @@ class QMotorInput(QGroupBox):
     def set_QLineEditMotor_text(self, msg):
         return self._QLineEditMotor.setText(msg)
     
+
 def QButtonStop_func():
     QMotorInputTL.set_QLineEditMotor_text(str(32))
     QMotorInputTR.set_QLineEditMotor_text(str(32))
@@ -62,7 +70,18 @@ def QButtonStop_func():
     QMotorInputTR.QButtonMotor_func()
     QMotorInputBL.QButtonMotor_func()
     QMotorInputBR.QButtonMotor_func()
-    
+
+
+
+# Connect to Serial Port (May want to incorporate some UI stuff for this)
+# Also will need to change Com port between connections 
+serialInst = serial.Serial("COM6", 9600)
+
+
+# Give the serial Com 3 seconds time to connect
+time.sleep(3)
+
+
 
 app = QApplication([])
 window = QWidget()
@@ -102,8 +121,9 @@ layout.addWidget(QMotorInputBR, 3, 2)
 
 window.setLayout(layout)
 window.show()
+
+
+# Close application and serial com
 app.exec()
-
-
-
+atexit.register(lambda: serialInst.close())
 
